@@ -1,0 +1,12 @@
+project: "thedude-lebowski/blackbelt-aks-hackfest"
+repository: "github.com/thedude-lebowski/blackbelt-aks-hackfest"
+cloneURL: "https://github.com/thedude-lebowski/blackbelt-aks-hackfest.git"
+sharedSecret: "create-something-super-secret"
+# MAKE SURE YOU CHANGE THIS. It's basically a password
+github:
+  token: "REPLACE"
+secrets:
+  acrServer: REPLACE
+  acrUsername: REPLACE
+  acrPassword: "REPLACE"
+vcsSidecar: "deis/git-sidecar:v0.11.0"
