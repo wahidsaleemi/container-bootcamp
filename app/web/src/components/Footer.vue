@@ -1,4 +1,4 @@
- - Test<template>
+TEST  - Test<template>
   <section>
     <div class="row at-row flex-center flex-middle">
       <div class="col-lg-24">
@@ -23,7 +23,7 @@
       <div class="col-lg-6">
       </div>
       <div class="col-lg-12">
-        <span class="credits">IMAGE TAG:&nbsp;</span><span class="credits-black">{{imageTag}}</span>
+        <span class="credits">TEST IMAGE TAG:&nbsp;</span><span class="credits-black">{{imageTag}}</span>
       </div>
       <div class="col-lg-6">
       </div>
@@ -32,7 +32,7 @@
       <div class="col-lg-6">
       </div>
       <div class="col-lg-12">
-        <span class="credits">IMAGE BUILD DATE:&nbsp;</span><span class="credits-black">{{imageDate}}</span>
+        <span class="credits"> TEST IMAGE BUILD DATE:&nbsp;</span><span class="credits-black">{{imageDate}}</span>
       </div>
       <div class="col-lg-6">
       </div>
