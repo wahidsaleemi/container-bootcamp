@@ -14,7 +14,7 @@ TEST  - Test<template>
       <div class="col-lg-6">
       </div>
       <div class="col-lg-12 credits">
-        Azure Global Blackbelt Team - Test1
+        Azure Global Blackbelt Team Thanks
       </div>
       <div class="col-lg-6">
       </div>
