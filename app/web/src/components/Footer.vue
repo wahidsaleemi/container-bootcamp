@@ -14,7 +14,7 @@
       <div class="col-lg-6">
       </div>
       <div class="col-lg-12 credits">
-        Azure Global BlueBelt Team 
+        Azure Global Blue Belt Team 
       </div>
       <div class="col-lg-6">
       </div>
