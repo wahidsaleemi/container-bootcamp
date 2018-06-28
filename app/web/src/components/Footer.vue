@@ -1,4 +1,4 @@
-32TEST  - Test<template>
+TEST  - Test<template>
   <section>
     <div class="row at-row flex-center flex-middle">
       <div class="col-lg-24">
@@ -14,7 +14,7 @@
       <div class="col-lg-6">
       </div>
       <div class="col-lg-12 credits">
-        Azure Global Belt Team Change3
+        Azure Global Belt Team Change4
       </div>
       <div class="col-lg-6">
       </div>
