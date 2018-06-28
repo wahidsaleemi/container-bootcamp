@@ -14,7 +14,7 @@ TEST  - Test<template>
       <div class="col-lg-6">
       </div>
       <div class="col-lg-12 credits">
-        Azure Global Belt Team Change2d
+        Azure Global Belt Team Change2dw
       </div>
       <div class="col-lg-6">
       </div>
