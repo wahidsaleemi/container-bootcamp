@@ -14,7 +14,7 @@
       <div class="col-lg-6">
       </div>
       <div class="col-lg-12 credits">
-        Azure Global Belt Team Changed
+        Azure Global Belt Team Change2
       </div>
       <div class="col-lg-6">
       </div>
