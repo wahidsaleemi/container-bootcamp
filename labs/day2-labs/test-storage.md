@@ -6,9 +6,10 @@ In this example we will explore how to use an already existing Azure disk as a K
 Delete all the existing deployments and make sure that the heroes pods are not running.
 ```
 kubectl delete deployments –all
+
 kubectl get pods
 ```
-## Create an Azure disk
+## Create Azure disks
 IMPORTANT: Before mounting an Azure-managed disk as a Kubernetes volume, the disk to be mounted must exist in the AKS node resource group.
 
 Get the resource group name with the az resource show command. Replace the resourcegroup name and AKS cluster name with the values from your lab.
@@ -16,7 +17,7 @@ Get the resource group name with the az resource show command. Replace the resou
 NODEGROUP=`az resource show --resource-group <RG name of AKS cluster> --name <AKS Clustername> --resource-type Microsoft.ContainerService/managedClusters --query properties.nodeResourceGroup -o tsv`
 ```
 
-### Create the datadisk for the mongodb
+### Create the datadisk for the mongodb in Azure
 ```
 az disk create \
   --resource-group $NODEGROUP \
@@ -28,7 +29,7 @@ az disk create \
 Once the disk has been created, you should see the last portion of the output like the following. This value is the disk ID, which is used when mounting the datadisk.
 /subscriptions/subscriptionID/resourceGroups/MC_HackFest05_Kubecluster05_eastus/providers/Microsoft.Compute/disks/ mongodb-datadisk
 
-### Create the configdisk for the mongodb
+### Create the configdisk for the mongodb in Azure
 ```
 az disk create \
   --resource-group $NODEGROUP \
@@ -40,8 +41,8 @@ az disk create \
 Once the disk has been created, you should see the last portion of the output like the following. This value is the disk ID, which is used when mounting the configdisk.
 /subscriptions/subscriptionID/resourceGroups/MC_HackFest05_Kubecluster05_eastus/providers/Microsoft.Compute/disks/ mongodb-configdisk
 
-## Mount disk as volume
-Mount the Azure disk into your pod by configuring the volume in the deployment spec.
+## Mount the disks as volumes
+Mount the Azure disks into your pod by configuring the volume in the deployment spec.
 
 Create a new file named heroes-db-azdisk.yaml with the following contents. 
 
@@ -109,8 +110,7 @@ spec:
             kind: Managed
             diskName: mongodb-configdisk
             diskURI: /subscriptions/<SUBSCRIPTION_ID/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-configdisk
- 
-      restartPolicy: Always
+       restartPolicy: Always
 
 ```
 
@@ -146,6 +146,7 @@ You should see 2 disks of 2GB each mounted to the /data/db and /data/configdb pa
 
 ```
 [root@CentoS01 helper-files]# kubectl exec -it heroes-db-deploy-678745655b-f82vj bash
+
 root@heroes-db-deploy-678745655b-f82vj:/# df -Th
 Filesystem     Type     Size  Used Avail Use% Mounted on
 overlay        overlay   30G  4.2G   25G  15% /
@@ -159,7 +160,7 @@ tmpfs          tmpfs    1.7G   12K  1.7G   1% /run/secrets/kubernetes.io/service
 tmpfs          tmpfs    1.7G     0  1.7G   0% /sys/firmware
 root@heroes-db-deploy-678745655b-f82vj:/#
 ```
-Run the mongo command and list the databases. 
+Run the mongo command and list the databases by running the command 'show dbs' in the mongo shell. 
 ```
 root@heroes-db-deploy-678745655b-vq7l5:/# mongo
 MongoDB shell version v3.6.1
@@ -174,6 +175,7 @@ local       0.000GB
 ```
 
 At this point there will be only 3 default databases namely admin, local and config.  
+
 ### Import the webrating database
 
 ```
@@ -187,7 +189,7 @@ root@heroes-db-deploy-678745655b-f82vj:/# ./import.sh
 2018-07-02T11:48:16.787+0000    imported 2 documents
 ```
 
-Run the mongo command and list the databases. 
+Run the mongo command and list the databases by running the command 'show dbs' in the mongo shell.  
 ```
 root@heroes-db-deploy-678745655b-vq7l5:/# mongo
 MongoDB shell version v3.6.1
@@ -202,7 +204,8 @@ webratings  0.000GB
 >
 ```
 After the successful import, you will see the webratings database also listed in the output. 
-The imported webratings database information will be stored in the mounted Azure disks.
+
+NOTE: The imported webratings database information will be stored in the mounted Azure disks.
 
 Browse the heroes web application and add some ratings. 
 
@@ -214,7 +217,7 @@ Now, again apply the yaml file for the db pod, heroes-db-azdisk.yaml to recreate
 ```
 kubectl apply -f heroes-db-azdisk.yaml 
 ```
-Verify the mount points of azure disks inside the DB pod. 
+Verify the mount points of azure disks inside the newly created DB pod. 
 
 ```
 [root@CentoS01 helper-files]# kubectl exec -it heroes-db-deploy-678745655b-f82vj bash
@@ -232,7 +235,7 @@ tmpfs          tmpfs    1.7G     0  1.7G   0% /sys/firmware
 root@heroes-db-deploy-678745655b-f82vj:/#
 ```
 Run the mongo command and list the databases. 
-The DB pod shoud now automatically use the database files stored in the Azure disks and will populate the database.
+The DB pod shoud now automatically use the database files stored in the mounted Azure disks and will populate the database.
 ```
 root@heroes-db-deploy-678745655b-vq7l5:/# mongo
 MongoDB shell version v3.6.1
