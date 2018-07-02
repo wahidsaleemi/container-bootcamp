@@ -7,9 +7,13 @@ NOTE: All the commands given below can be executed either on the Azure Shell or 
 ## Delete existing deployments
 We will starrt with deleting all the existing deployments and making sure that the DB, WEB and API pods are not running.
 ```
-kubectl delete deployments –all
+[root@CentoS01 helper-files]# kubectl delete deployments --all
+deployment.extensions "heroes-api-deploy" deleted
+deployment.extensions "heroes-db-deploy" deleted
+deployment.extensions "heroes-web-deploy" deleted
 
-kubectl get pods
+[root@CentoS01 helper-files]# kubectl get pods
+No resources found.
 ```
 ## Create Azure disks
 Before mounting an Azure-managed disk as a Kubernetes volume, the disk to be mounted must exist in the AKS node resource group.
@@ -116,7 +120,6 @@ spec:
             diskName: mongodb-configdisk
             diskURI: /subscriptions/<SUBSCRIPTION_ID/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-configdisk
        restartPolicy: Always
-
 ```
 
 ## Create the DB, WEB and API Pods
