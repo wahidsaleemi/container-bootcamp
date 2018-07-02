@@ -1,18 +1,20 @@
 
 # Use Persistent Azure Disks for mongodb database
-In this example we will explore how to use an already existing Azure disk as a Kubernetes volume in an AKS Cluster and use it to store the monogdb files. 
+In this example we will explore how to use already existing Azure disks as a Kubernetes volume in an AKS Cluster and use it to store the monogdb files.  We will create 2 Managed Disks in Azure for the monogodb and mount them to the DB pod. We will then import the monogdb data into the Azure disks and then validate the data by attching the disks to a fresh DB pod. 
+
+NOTE: All the commands given below can be executed either on the Azure Shell or the CentOS jumpbox.
 
 ## Delete existing deployments
-Delete all the existing deployments and make sure that the heroes pods are not running.
+We will starrt with deleting all the existing deployments and making sure that the DB, WEB and API pods are not running.
 ```
 kubectl delete deployments –all
 
 kubectl get pods
 ```
 ## Create Azure disks
-IMPORTANT: Before mounting an Azure-managed disk as a Kubernetes volume, the disk to be mounted must exist in the AKS node resource group.
+Before mounting an Azure-managed disk as a Kubernetes volume, the disk to be mounted must exist in the AKS node resource group.
 
-Get the resource group name with the az resource show command. Replace the resourcegroup name and AKS cluster name with the values from your lab.
+Get the resource group name of AKS nodes with the az resource show command. Replace the resourcegroup name and AKS cluster name with the values from your lab.
 ```
 NODEGROUP=`az resource show --resource-group <RG name of AKS cluster> --name <AKS Clustername> --resource-type Microsoft.ContainerService/managedClusters --query properties.nodeResourceGroup -o tsv`
 ```
@@ -27,8 +29,9 @@ az disk create \
   --query id --output tsv
 ```
 Once the disk has been created, you should see the last portion of the output like the following. This value is the disk ID, which is used when mounting the datadisk.
+```
 /subscriptions/subscriptionID/resourceGroups/MC_HackFest05_Kubecluster05_eastus/providers/Microsoft.Compute/disks/ mongodb-datadisk
-
+```
 ### Create the configdisk for the mongodb in Azure
 ```
 az disk create \
@@ -39,7 +42,9 @@ az disk create \
   --query id --output tsv
 ```
 Once the disk has been created, you should see the last portion of the output like the following. This value is the disk ID, which is used when mounting the configdisk.
+```
 /subscriptions/subscriptionID/resourceGroups/MC_HackFest05_Kubecluster05_eastus/providers/Microsoft.Compute/disks/ mongodb-configdisk
+```
 
 ## Mount the disks as volumes
 Mount the Azure disks into your pod by configuring the volume in the deployment spec.
@@ -234,6 +239,7 @@ tmpfs          tmpfs    1.7G   12K  1.7G   1% /run/secrets/kubernetes.io/service
 tmpfs          tmpfs    1.7G     0  1.7G   0% /sys/firmware
 root@heroes-db-deploy-678745655b-f82vj:/#
 ```
+## Validate that the databases are populated from the Azure Disks. 
 Run the mongo command and list the databases. 
 The DB pod shoud now automatically use the database files stored in the mounted Azure disks and will populate the database.
 ```
