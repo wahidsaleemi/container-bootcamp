@@ -42,7 +42,10 @@ Once the disk has been created, you should see the last portion of the output li
 
 ## Mount disk as volume
 Mount the Azure disk into your pod by configuring the volume in the deployment spec.
-Create a new file named heroes-db-azdisk.yaml with the following contents. Update the diskURI with the disk IDs obtained while creating the respective disks. Also, take note of the mountPath, which is the path where the Azure disk is mounted inside the heroes-db pod.
+
+Create a new file named heroes-db-azdisk.yaml with the following contents. 
+
+Update the diskURI with the disk IDs obtained while creating the respective disks. Also, take note of the mountPath, which is the path where the Azure disk is mounted inside the heroes-db pod.
 
 ```
 apiVersion: v1
@@ -100,12 +103,12 @@ spec:
           azureDisk:
             kind: Managed
             diskName: mongodb-datadisk
-            diskURI: /subscriptions/15ee7445-9e2d-4c9c-a3a7-b9759519e118/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-datadisk
+            diskURI: /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-datadisk
         - name: azuredisk-configdb
           azureDisk:
             kind: Managed
             diskName: mongodb-configdisk
-            diskURI: /subscriptions/15ee7445-9e2d-4c9c-a3a7-b9759519e118/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-configdisk
+            diskURI: /subscriptions/<SUBSCRIPTION_ID/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-configdisk
  
       restartPolicy: Always
 
