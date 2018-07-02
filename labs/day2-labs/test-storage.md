@@ -34,7 +34,7 @@ az disk create \
 ```
 Once the disk has been created, you should see the last portion of the output like the following. This value is the disk ID, which is used when mounting the datadisk.
 ```
-/subscriptions/subscriptionID/resourceGroups/MC_HackFest05_Kubecluster05_eastus/providers/Microsoft.Compute/disks/ mongodb-datadisk
+/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/MC_HackFest05_Kubecluster05_eastus/providers/Microsoft.Compute/disks/ mongodb-datadisk
 ```
 ### Create the configdisk for the mongodb in Azure
 ```
@@ -47,7 +47,7 @@ az disk create \
 ```
 Once the disk has been created, you should see the last portion of the output like the following. This value is the disk ID, which is used when mounting the configdisk.
 ```
-/subscriptions/subscriptionID/resourceGroups/MC_HackFest05_Kubecluster05_eastus/providers/Microsoft.Compute/disks/ mongodb-configdisk
+/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/MC_HackFest05_Kubecluster05_eastus/providers/Microsoft.Compute/disks/ mongodb-configdisk
 ```
 
 ## Mount the disks as volumes
@@ -118,7 +118,7 @@ spec:
           azureDisk:
             kind: Managed
             diskName: mongodb-configdisk
-            diskURI: /subscriptions/<SUBSCRIPTION_ID/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-configdisk
+            diskURI: /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-configdisk
        restartPolicy: Always
 ```
 
