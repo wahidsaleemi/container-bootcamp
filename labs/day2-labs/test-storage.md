@@ -186,6 +186,7 @@ At this point there will be only 3 default databases namely admin, local and con
 
 ### Import the webrating database
 
+Run the import.sh file to create the webratings database and load it with initial data.
 ```
 root@heroes-db-deploy-678745655b-f82vj:/#cd /
 root@heroes-db-deploy-678745655b-f82vj:/# ./import.sh
@@ -217,10 +218,12 @@ NOTE: The imported webratings database information will be stored in the mounted
 
 Browse the heroes web application and add some ratings. 
 
+## Destroy the DB POD
 Now delete the database pod deployment
 ```
 kubectl delete deployment heroes-db-deploy
 ```
+## Recreate the DB POD
 Now, again apply the yaml file for the db pod, heroes-db-azdisk.yaml to recreate the DB pod
 ```
 kubectl apply -f heroes-db-azdisk.yaml 
@@ -258,4 +261,3 @@ local       0.000GB
 webratings  0.000GB
 >
 ```
-
