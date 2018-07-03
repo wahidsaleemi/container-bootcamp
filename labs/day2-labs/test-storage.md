@@ -78,7 +78,7 @@ kind: Deployment
 metadata:
   name:  heroes-db-deploy
   labels:
-    name:  heroes-db-azdisk
+    name:  heroes-db
 spec:
   strategy:
     rollingUpdate:
@@ -88,7 +88,7 @@ spec:
   template:
     metadata:
       labels:
-        name:  heroes-db-azdisk
+        name:  heroes-db
     spec:
       imagePullSecrets:
         - name: acr-secret
@@ -101,7 +101,7 @@ spec:
             memory: "55M"
         ports:
         - containerPort:  27017
-          name:  heroes-db-azdisk
+          name:  heroes-db
         volumeMounts:
         - mountPath: /data/db
           name: azuredisk-db
@@ -113,13 +113,14 @@ spec:
           azureDisk:
             kind: Managed
             diskName: mongodb-datadisk
-            diskURI: /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-datadisk
+            diskURI: /subscriptions/15ee7445-9e2d-4c9c-a3a7-b9759519e118/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-datadisk
         - name: azuredisk-configdb
           azureDisk:
             kind: Managed
             diskName: mongodb-configdisk
-            diskURI: /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-configdisk
-       restartPolicy: Always
+            diskURI: /subscriptions/15ee7445-9e2d-4c9c-a3a7-b9759519e118/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-configdisk
+
+      restartPolicy: Always
 ```
 
 ## Create the DB, WEB and API Pods
