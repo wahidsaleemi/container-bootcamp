@@ -55,7 +55,7 @@ Mount the Azure disks into your pod by configuring the volume in the deployment 
 
 Create a new file named heroes-db-azdisk.yaml with the following contents. 
 
-Update the diskURI with the disk IDs obtained while creating the respective disks. Also, take note of the mountPath, which is the path where the Azure disk is mounted inside the heroes-db pod.
+Update the ACR server name and the diskURI for both datadisk and configdisk with the disk IDs obtained while creating the respective disks. Also, take note of the mountPath, which is the path where the Azure disk is mounted inside the heroes-db pod.
 
 ```
 apiVersion: v1
@@ -93,7 +93,7 @@ spec:
       imagePullSecrets:
         - name: acr-secret
       containers:
-      - image:  deepuacr01.azurecr.io/azureworkshop/rating-db:v1
+      - image:  <acrname>.azurecr.io/azureworkshop/rating-db:v1
         name:  heroes-db-cntnr
         resources:
           requests:
@@ -113,12 +113,12 @@ spec:
           azureDisk:
             kind: Managed
             diskName: mongodb-datadisk
-            diskURI: /subscriptions/15ee7445-9e2d-4c9c-a3a7-b9759519e118/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-datadisk
+            diskURI: /subscriptions/<SUBCRIPTION_ID>/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-datadisk
         - name: azuredisk-configdb
           azureDisk:
             kind: Managed
             diskName: mongodb-configdisk
-            diskURI: /subscriptions/15ee7445-9e2d-4c9c-a3a7-b9759519e118/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-configdisk
+            diskURI: /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-configdisk
 
       restartPolicy: Always
 ```
