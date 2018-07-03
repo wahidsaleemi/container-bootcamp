@@ -1,11 +1,14 @@
 
 # Use Persistent Azure Disks for mongodb database
-In this example we will explore how to use already existing Azure disks as a Kubernetes volume in an AKS Cluster and use it to store the monogdb files.  We will create 2 Managed Disks and place the mongodb data and config files on the mounted Azure disks. Finally we will delete the pod and recreate it and attach the same Azure disks which hold mongodb data files and see that the data is persistent.
+A persistent volume in an AKS Cluster represents the storage that has been provisioned for use with the AKS pods. Even if the pods are destroyed/recreated, the data stored in the persistent volumes will stay independent of the pod lifecycle. 
+
+In this example we will explore how to use already existing Azure disks as volumes in an AKS Cluster, and use it to store the monogdb files.  
+We will create 2 Managed Disks and place the mongodb data and config files on the mounted Azure disks. Finally we will delete the pod and recreate it and attach the same Azure disks which hold mongodb data files and see that the data is persistent.
 
 NOTE: All the commands given below can be executed either on the Azure Shell or the CentOS jumpbox.
 
 ## Delete existing deployments
-We will start with deleting all the existing deployments and making sure that the DB, WEB and API pods are not running.
+We will start with deleting all the existing deployments and making sure that the old instances of DB, WEB and API pods are not running.
 ```
 [root@CentoS01 helper-files]# kubectl delete deployments --all
 deployment.extensions "heroes-api-deploy" deleted
@@ -18,9 +21,10 @@ No resources found.
 ## Create Azure disks
 Before mounting an Azure-managed disk as a Kubernetes volume, the disk to be mounted must be in the same resource group where the AKS Node resides.
 
-Get the Resource Group where the AKS Nodes resides by executing below. Replace the resourcegroup name and AKS cluster name with the values from your lab.
+Get the Resource Group where the AKS Nodes resides by executing below command. Replace the resourcegroup name and AKS cluster name with the values from your lab.
 ```
 NODEGROUP=`az resource show --resource-group <RG name of AKS cluster> --name <AKS Clustername> --resource-type Microsoft.ContainerService/managedClusters --query properties.nodeResourceGroup -o tsv`
+echo $NODEGROUP
 ```
 
 ### Create the datadisk for the mongodb in Azure
@@ -126,11 +130,11 @@ Save the heroes-db-azdisk.yaml file.
 
 ## Create the DB, WEB and API Pods
 
-Apply the yaml file to create the heroes-db pod
+Apply the yaml file to create the heroes-db pod with mounted Azure Disks.
 ```
 Kubectl apply -f heroes-db-azdisk.yaml
 ```
-Edit the heroes-web-api.yaml file and make sure that the MONGO_URI is Mongodb running in the heroes-db pod.
+Edit the heroes-web-api.yaml file and make sure that the MONGO_URI is pointing to the Mongodb running in the heroes-db pod.
 ```
 env:
         - name:  MONGODB_URI
@@ -220,20 +224,22 @@ NOTE: The imported webratings database information will be stored in the mounted
 
 Browse the heroes web application and add some ratings. Make a note of the current ratings.
 
-## Destroy the DB POD
+## Destroy the DB Pod
 Now delete the database pod deployment
 ```
 kubectl delete deployment heroes-db-deploy
 ```
-Browse the heroes web application and refresh the ratings. You will not be able to see the ratings as there is no backend database pod. . 
-## Recreate the DB POD
+Browse the heroes web application and refresh the ratings. You will not be able to see the ratings now.
+
+## Recreate the DB Pod
 Now, again apply the yaml file for the db pod, heroes-db-azdisk.yaml to recreate the DB pod.
+
 This will create a fresh heroes-db pod with the same Azure disks mounted. 
 
 ```
 kubectl apply -f heroes-db-azdisk.yaml 
 ```
-Verify the mount points of azure disks inside the newly created DB pod. 
+Wit for the pod to be ctarted and Verify the mount points of azure disks inside the newly created DB pod. 
 
 ```
 [root@CentoS01 helper-files]# kubectl exec -it heroes-db-deploy-678745655b-f82vj bash
@@ -266,4 +272,4 @@ local       0.000GB
 webratings  0.000GB
 >
 ```
-Browse the heroes web application and check the ratings. You will see the same ratings. 
+Browse the heroes web application and check the ratings. You will see the same ratings which you neted earlier. 
