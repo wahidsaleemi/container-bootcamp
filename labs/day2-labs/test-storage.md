@@ -132,7 +132,7 @@ Save the heroes-db-azdisk.yaml file.
 
 Apply the yaml file to create the heroes-db pod with mounted Azure Disks.
 ```
-Kubectl apply -f heroes-db-azdisk.yaml
+kubectl apply -f heroes-db-azdisk.yaml
 ```
 Edit the heroes-web-api.yaml file and make sure that the MONGO_URI is pointing to the Mongodb running in the heroes-db pod.
 ```
@@ -159,7 +159,7 @@ Verify the mount points  of azure disks inside the DB pod with the below command
 NOTE: You should see 2 disks of 2GB each mounted to the /data/db and /data/configdb paths. 
 
 ```
-[root@CentoS01 helper-files]# kubectl exec -it heroes-db-deploy-678745655b-f82vj bash
+[root@CentoS01 helper-files]# kubectl exec -it <DB pod name> bash
 
 root@heroes-db-deploy-678745655b-f82vj:/# df -Th
 Filesystem     Type     Size  Used Avail Use% Mounted on
@@ -188,7 +188,7 @@ local       0.000GB
 >
 ```
 
-At this point there will be only 3 default databases namely admin, local and config.  
+At this point there will be only 3 default databases namely admin, local and config.  Type exit to exit the mongo shell
 
 ### Import the webrating database
 
@@ -222,6 +222,8 @@ This time, you will see the webratings database also listed in the output.
 
 NOTE: The imported webratings database information will be stored in the mounted Azure disks.
 
+Type 'exit' 2 times to exit from the mongo shell and the db pod. 
+
 Browse the heroes web application and add some ratings. Make a note of the current ratings.
 
 ## Destroy the DB Pod
@@ -239,7 +241,7 @@ This will create a fresh heroes-db pod with the same Azure disks mounted.
 ```
 kubectl apply -f heroes-db-azdisk.yaml 
 ```
-Wit for the pod to be ctarted and Verify the mount points of azure disks inside the newly created DB pod. 
+Wait for the pod to be started and Verify the mount points of azure disks inside the newly created DB pod. 
 
 ```
 [root@CentoS01 helper-files]# kubectl exec -it heroes-db-deploy-678745655b-f82vj bash
@@ -272,4 +274,4 @@ local       0.000GB
 webratings  0.000GB
 >
 ```
-Browse the heroes web application and check the ratings. You will see the same ratings which you neted earlier. 
+Browse the heroes web application and check the ratings. You will see the same ratings which you noted earlier. 
