@@ -241,10 +241,10 @@ This will create a fresh heroes-db pod with the same Azure disks mounted.
 ```
 kubectl apply -f heroes-db-azdisk.yaml 
 ```
-Wait for the pod to be started and Verify the mount points of azure disks inside the newly created DB pod. 
+Wait for the pod to be started and verify the mount points of azure disks inside the newly created DB pod. 
 
 ```
-[root@CentoS01 helper-files]# kubectl exec -it heroes-db-deploy-678745655b-f82vj bash
+[root@CentoS01 helper-files]# kubectl exec -it <db pod> bash
 root@heroes-db-deploy-678745655b-f82vj:/# df -Th
 Filesystem     Type     Size  Used Avail Use% Mounted on
 overlay        overlay   30G  4.2G   25G  15% /
@@ -260,7 +260,7 @@ root@heroes-db-deploy-678745655b-f82vj:/#
 ```
 ## Validate that the databases are populated from the Azure Disks. 
 Run the mongo command and list the databases. 
-The DB pod shoud now automatically use the database files stored in the mounted Azure disks and will populate the database.
+The DB pod should now automatically use the database files stored in the mounted Azure disks and will populate the database.
 ```
 root@heroes-db-deploy-678745655b-vq7l5:/# mongo
 MongoDB shell version v3.6.1
