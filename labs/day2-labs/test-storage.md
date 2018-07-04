@@ -36,9 +36,9 @@ az disk create \
 --sku Standard_LRS \
   --query id --output tsv
 ```
-Once the disk has been created, you should see the last portion of the output like the following. This value is the disk ID, which is used when mounting the datadisk.
+Once the disk has been created, you should see the last portion of the output like the following. This value is the disk ID, which is used when mounting the datadisk. Keep this value copied to a notepad file.
 ```
-/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/MC_HackFest05_Kubecluster05_eastus/providers/Microsoft.Compute/disks/ mongodb-datadisk
+/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/MC_HackFest05_Kubecluster05_eastus/providers/Microsoft.Compute/disks/mongodb-datadisk
 ```
 ### Create the configdisk for the mongodb in Azure
 ```
@@ -49,9 +49,9 @@ az disk create \
 --sku Standard_LRS \
   --query id --output tsv
 ```
-Once the disk has been created, copy the disk ID, which is used when mounting the configdisk.
+Once the disk has been created, copy the disk ID to a notped, which is used when mounting the configdisk.
 ```
-/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/MC_HackFest05_Kubecluster05_eastus/providers/Microsoft.Compute/disks/ mongodb-configdisk
+/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/MC_HackFest05_Kubecluster05_eastus/providers/Microsoft.Compute/disks/mongodb-configdisk
 ```
 
 ## Mount the disks as Persistent Volumes
