@@ -117,12 +117,12 @@ spec:
           azureDisk:
             kind: Managed
             diskName: mongodb-datadisk
-            diskURI: /subscriptions/<SUBCRIPTION_ID>/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-datadisk
+            diskURI: <datadisk ID>
         - name: azuredisk-configdb
           azureDisk:
             kind: Managed
             diskName: mongodb-configdisk
-            diskURI: /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/MC_HackFest01_HackFest01_eastus/providers/Microsoft.Compute/disks/mongodb-configdisk
+            diskURI: <configdisk ID>
 
       restartPolicy: Always
 ```
