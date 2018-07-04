@@ -260,7 +260,7 @@ root@heroes-db-deploy-678745655b-f82vj:/#
 ```
 ## Validate that the databases are populated from the Azure Disks. 
 Run the mongo command and list the databases. 
-The DB pod should now automatically use the database files stored in the mounted Azure disks and will populate the database.
+The DB pod should now automatically use the database files stored in the mounted Azure disks and will populate the webratings database.
 ```
 root@heroes-db-deploy-678745655b-vq7l5:/# mongo
 MongoDB shell version v3.6.1
