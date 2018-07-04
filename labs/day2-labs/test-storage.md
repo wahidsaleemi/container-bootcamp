@@ -57,7 +57,7 @@ Once the disk has been created, copy the disk ID to a notped, which is used when
 ## Mount the disks as Persistent Volumes
 Mount the Azure disks into your pod by configuring the volume in the deployment specification.
 
-Create a new file named heroes-db-azdisk.yaml under ~/blackbelt-aks-hackfest/labs/helper-files/ with the following contents in yur CentOS jumpbox/Azure Shell. 
+Create a new file named heroes-db-azdisk.yaml under ~/blackbelt-aks-hackfest/labs/helper-files/ with the following contents in your CentOS jumpbox/Azure Shell. 
 
 NOTE: Update the ACR server name and the diskURI for both datadisk and configdisk with the disk IDs obtained while creating the respective disks. Also, take note of the mountPath, which is the path where the Azure disk is mounted inside the heroes-db pod.
 
